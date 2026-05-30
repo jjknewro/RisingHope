@@ -35,7 +35,7 @@ function App() {
             <div className="flex-1 text-center md:text-left">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-100 text-purple-700 text-xs font-semibold mb-6">
                 <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
-                501(c)(3) Nonprofit Organization
+                501(c)(3) Nonprofit Organization (Pending)
               </div>
               <h1 className="text-4xl md:text-6xl font-extrabold text-purple-900 leading-tight tracking-tight">
                 Rising Hope<br />
@@ -293,7 +293,7 @@ function App() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
             </svg>
-            <span className="font-medium">Principal Office: State of New York &mdash; 501(c)(3) Nonprofit Organization</span>
+            <span className="font-medium">Principal Office: State of New York &mdash; 501(c)(3) Nonprofit Organization (Pending)</span>
           </div>
         </div>
       </section>
