@@ -1,7 +1,20 @@
+import { useState } from 'react';
 import logo from '/risinghopelogo.png';
 import './App.css';
 
 function App() {
+  const [showContact, setShowContact] = useState(false);
+  const [contactForm, setContactForm] = useState({ name: '', email: '', subject: '', message: '' });
+
+  const handleContactSubmit = (e) => {
+    e.preventDefault();
+    const { name, email, subject, message } = contactForm;
+    const body = `From: ${name} (${email})\n\n${message}`;
+    const mailto = `mailto:risinghopetikvaholah@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailto;
+    setShowContact(false);
+  };
+
   return (
     <div className="min-h-screen bg-white text-gray-800 font-sans">
       {/* ── Navigation ── */}
@@ -271,15 +284,15 @@ function App() {
                 </svg>
                 Make a Donation
               </a>
-              <a
-                href="mailto:contact@risinghopetikvah.org"
-                className="inline-flex items-center px-8 py-4 rounded-full border-2 border-purple-300 text-white font-bold hover:bg-white/10 transition-colors text-lg"
+              <button
+                onClick={() => setShowContact(true)}
+                className="inline-flex items-center px-8 py-4 rounded-full border-2 border-purple-300 text-white font-bold hover:bg-white/10 transition-colors text-lg cursor-pointer"
               >
                 <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
                 </svg>
                 Contact Us
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -322,6 +335,126 @@ function App() {
           </div>
         </div>
       </footer>
+
+      {/* ── Contact Popup Modal ── */}
+      {showContact && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 animate-fade-in"
+          onClick={() => setShowContact(false)}
+        >
+          {/* Backdrop */}
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+
+          {/* Modal Card */}
+          <div
+            className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl border border-purple-100 overflow-hidden animate-scale-in"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="bg-gradient-to-r from-purple-700 to-purple-900 px-6 py-5 flex items-center justify-between">
+              <div>
+                <h3 className="text-xl font-bold text-white">Contact Us</h3>
+                <p className="text-purple-200 text-sm mt-0.5">We'd love to hear from you</p>
+              </div>
+              <button
+                onClick={() => setShowContact(false)}
+                className="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
+                aria-label="Close"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Form */}
+            <form onSubmit={handleContactSubmit} className="p-6 space-y-5">
+              {/* To Field (read-only) */}
+              <div>
+                <label className="block text-sm font-semibold text-purple-700 mb-1.5">To</label>
+                <div className="flex items-center gap-3 px-4 py-3 bg-purple-50 rounded-xl border border-purple-200">
+                  <svg className="w-5 h-5 text-purple-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+                  </svg>
+                  <span className="text-gray-700 font-medium">risinghopetikvaholah@gmail.com</span>
+                </div>
+              </div>
+
+              {/* Name */}
+              <div>
+                <label htmlFor="contact-name" className="block text-sm font-semibold text-purple-700 mb-1.5">Your Name</label>
+                <input
+                  id="contact-name"
+                  type="text"
+                  required
+                  value={contactForm.name}
+                  onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
+                  placeholder="Enter your full name"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-100 outline-none transition-all text-gray-700 placeholder-gray-400"
+                />
+              </div>
+
+              {/* Email */}
+              <div>
+                <label htmlFor="contact-email" className="block text-sm font-semibold text-purple-700 mb-1.5">Your Email</label>
+                <input
+                  id="contact-email"
+                  type="email"
+                  required
+                  value={contactForm.email}
+                  onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
+                  placeholder="you@example.com"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-100 outline-none transition-all text-gray-700 placeholder-gray-400"
+                />
+              </div>
+
+              {/* Subject */}
+              <div>
+                <label htmlFor="contact-subject" className="block text-sm font-semibold text-purple-700 mb-1.5">Subject</label>
+                <input
+                  id="contact-subject"
+                  type="text"
+                  required
+                  value={contactForm.subject}
+                  onChange={(e) => setContactForm({ ...contactForm, subject: e.target.value })}
+                  placeholder="What is this about?"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-100 outline-none transition-all text-gray-700 placeholder-gray-400"
+                />
+              </div>
+
+              {/* Message */}
+              <div>
+                <label htmlFor="contact-message" className="block text-sm font-semibold text-purple-700 mb-1.5">Message</label>
+                <textarea
+                  id="contact-message"
+                  rows={4}
+                  required
+                  value={contactForm.message}
+                  onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
+                  placeholder="Write your message here..."
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-100 outline-none transition-all text-gray-700 placeholder-gray-400 resize-none"
+                />
+              </div>
+
+              {/* Submit */}
+              <button
+                type="submit"
+                className="w-full inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-amber-500 text-white font-bold hover:bg-amber-600 transition-colors shadow-lg shadow-amber-500/25 text-lg cursor-pointer"
+              >
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12Zm0 0h7.5" />
+                </svg>
+                Send Message
+              </button>
+
+              <p className="text-xs text-gray-400 text-center">
+                Your email client will open to send this message
+              </p>
+            </form>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
